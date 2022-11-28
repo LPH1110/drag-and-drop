@@ -1,0 +1,39 @@
+.column + .column {
+    margin-left: 1rem;
+}
+
+.column-item + .column-item {
+    margin-top: 0.5rem;
+}
+
+.column-inner {
+    max-height: 24rem;
+    overflow-y: hidden;
+    transition: all ease 0.2s;
+}
+
+.column-inner:hover {
+    overflow-y: overlay;
+}
+
+.column-item:hover {
+    .column-item-modify {
+        display: inline-block;
+    }
+}
+
+.column-item-modify {
+    display: none;
+}
+
+.prior-low {
+    background-color: rgb(252 165 165) !important;
+}
+
+.prior-normal {
+    background-color: rgb(254 240 138) !important;
+}
+
+.prior-high {
+    background-color: rgb(134 239 172) !important;
+}
