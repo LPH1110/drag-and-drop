@@ -1,6 +1,6 @@
 import { publicRoutes as routes } from './routes';
 import { Routes, Route } from 'react-router-dom';
-import { ScrollToTop } from './components';
+import { ScrollToTop, Modal } from './components';
 
 function App() {
     return (

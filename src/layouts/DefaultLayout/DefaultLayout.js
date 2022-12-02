@@ -11,7 +11,7 @@ function DefaultLayout({ children }) {
                     </nav>
                 </aside>
             </section>
-            <section className="w-screen">{children}</section>
+            <section className="col-span-10">{children}</section>
         </section>
     );
 }

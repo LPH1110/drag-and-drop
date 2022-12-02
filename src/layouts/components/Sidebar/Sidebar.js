@@ -25,15 +25,9 @@ const menuItems = [
     },
     {
         id: uuidv4(),
-        title: 'Projects',
-        icon: <DocumentTextIcon className="w-5 h-5" />,
-        path: '/projects',
-    },
-    {
-        id: uuidv4(),
-        title: 'Tasks',
+        title: 'Workspaces',
         icon: <ClipboardDocumentIcon className="w-5 h-5" />,
-        path: '/tasks',
+        path: '/workspaces',
     },
     {
         id: uuidv4(),
@@ -84,10 +78,10 @@ function Sidebar() {
                                 let classes = '';
                                 if (isActive) {
                                     classes =
-                                        'text-slate-900 border-t border-transparent py-3 flex items-center font-semibold';
+                                        'text-slate-900 border-t border-transparent py-3 flex items-center font-semibold ease duration-200';
                                 } else {
                                     classes =
-                                        'text-slate-300 border-t border-transparent py-3 flex items-center font-semibold';
+                                        'text-slate-300 border-t border-transparent py-3 flex items-center font-semibold ease duration-200';
                                 }
                                 return cx('menuItem', classes);
                             }}

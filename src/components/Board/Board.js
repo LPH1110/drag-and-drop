@@ -113,7 +113,7 @@ function Board() {
 
     const handleAddColumn = (columnId) => {};
     return (
-        <section className="justify-center flex overflow-x-overlay bg-slate-100">
+        <section className="w-full flex overflow-x-overlay bg-slate-100">
             <DragDropContext onDragEnd={handleDragEnd}>
                 {Object.entries(cols).map(([id, col]) => {
                     return (
