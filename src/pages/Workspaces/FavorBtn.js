@@ -4,20 +4,16 @@ import styles from './Workspaces.module.scss';
 import classNames from 'classnames/bind';
 
 import { Button } from '~/components';
+import { useStore, actions } from '~/store';
 
 const cx = classNames.bind(styles);
 
-function FavorBtn({ data, boards, setBoards }) {
+function FavorBtn({ data, boards }) {
+    const [state, dispatch] = useStore();
+
     const handleChangeFavor = (e, boardId) => {
         e.preventDefault();
-        const board = boards[boardId];
-        setBoards((prev) => ({
-            ...prev,
-            [boardId]: {
-                ...board,
-                favor: !data.favor,
-            },
-        }));
+        dispatch(actions.changeBoardFavor({ boardId: data.id, favor: !data.favor }));
     };
     return (
         <Button

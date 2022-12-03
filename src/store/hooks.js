@@ -2,6 +2,7 @@ import Context from './Context';
 import { useContext, useState, useEffect } from 'react';
 
 export const useStore = () => {
+    console.log(useContext(Context));
     const [state, dispatch] = useContext(Context);
     return [state, dispatch];
 };

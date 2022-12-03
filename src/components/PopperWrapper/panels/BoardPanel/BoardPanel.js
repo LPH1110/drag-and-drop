@@ -4,9 +4,15 @@ import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 
 import { Button } from '~/components';
+import { useStore, actions } from '~/store';
 
 function BoardPanel({ data }) {
     const [forward, setForward] = useState(false);
+    const [state, dispatch] = useStore();
+
+    const handleCloseBoard = () => {
+        dispatch(actions.changeBoardStatus({ boardId: data.id, closed: true }));
+    };
 
     return (
         <section className="min-w-[16rem]">
@@ -58,6 +64,7 @@ function BoardPanel({ data }) {
                         <Button
                             type="button"
                             size="medium"
+                            onClick={handleCloseBoard}
                             className="my-2 w-full py-2 bg-red-400 text-slate-100 font-semibold rounded-md hover:bg-red-400/90 ease-in-out duration-200"
                         >
                             Close
