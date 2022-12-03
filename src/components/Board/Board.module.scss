@@ -1,13 +1,17 @@
+.board-container {
+    overflow-x: overlay;
+}
+
 .column + .column {
     margin-left: 1rem;
 }
 
 .column-item + .column-item {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
 }
 
 .column-inner {
-    max-height: 24rem;
+    max-height: 32rem;
     overflow-y: hidden;
     transition: all ease 0.2s;
 }

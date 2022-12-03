@@ -1,18 +1,16 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
 
-import { Button } from '~/components';
+import { Button, PopperWrapper } from '~/components';
 import { useStore, actions } from '~/store';
 
-function ClosedBoardRow({ data }) {
+function ClosedBoardRow({ data, setToast }) {
     const [state, dispatch] = useStore();
 
-    const handleReOpenBoard = () => {
+    const handleReOpenBoard = (e) => {
+        e.preventDefault();
         dispatch(actions.changeBoardStatus({ boardId: data.id, closed: false }));
     };
 
-    const handleDeleteBoard = () => {
-        dispatch(actions.deletBoard({ boardId: data.id }));
-    };
     return (
         <div className="py-4">
             <div className="flex items-center justify-between">
@@ -22,15 +20,14 @@ function ClosedBoardRow({ data }) {
                         type="button"
                         size="small"
                         leftIcon={<XMarkIcon className="w-5 h-5" />}
-                        onClick={handleDeleteBoard}
-                        className="rounded-sm bg-slate-200 text-slate-700 hover:bg-slate-200/80 ease-in-out duration-200"
+                        className="relative rounded-sm bg-slate-200 text-slate-700 hover:bg-slate-200/80 ease-in-out duration-200"
                     >
                         Delete
                     </Button>
                     <Button
                         type="button"
                         size="small"
-                        onClick={handleReOpenBoard}
+                        onClick={(e) => handleReOpenBoard(e)}
                         className="rounded-sm font-semibold bg-blue-200 text-blue-600 hover:bg-blue-200/80 ease-in-out duration-200"
                     >
                         Reopen
