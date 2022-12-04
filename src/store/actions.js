@@ -1,4 +1,10 @@
-import { CHANGE_BOARD_STATUS, CHANGE_BOARD_FAVOR, ADD_NEW_BOARD, DELETE_BOARD } from './constants';
+import {
+    CHANGE_BOARD_STATUS,
+    CHANGE_BOARD_FAVOR,
+    ADD_NEW_BOARD,
+    DELETE_BOARD,
+    ONCHANGE_BOARD_TITLE,
+} from './constants';
 
 export const changeBoardFavor = (payload) => ({
     type: CHANGE_BOARD_FAVOR,
@@ -15,7 +21,12 @@ export const addNewBoard = (payload) => ({
     payload,
 });
 
-export const deletBoard = (payload) => ({
+export const deleteBoard = (payload) => ({
     type: DELETE_BOARD,
+    payload,
+});
+
+export const onChangeBoardTitle = (payload) => ({
+    type: ONCHANGE_BOARD_TITLE,
     payload,
 });

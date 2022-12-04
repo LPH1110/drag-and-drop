@@ -34,12 +34,12 @@ function Workspaces() {
                                 )}
                             >
                                 <div className="flex items-center justify-between">
-                                    <h4 className="">{board.title}</h4>
+                                    <h4 className={cx('board-title')}>{board.title}</h4>
                                     <Button
                                         onClick={(e) => e.preventDefault()}
                                         className="z-2 p-1 hover:bg-slate-200 rounded-md ease duration-200"
                                     >
-                                        <PopperWrapper boardPanel={{ ...board, id }}>
+                                        <PopperWrapper placement="bottom-end" boardPanel={{ ...board, id }}>
                                             <EllipsisHorizontalIcon className="w-5 h-5" />
                                         </PopperWrapper>
                                     </Button>

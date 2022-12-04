@@ -11,12 +11,19 @@ import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 
 import { Board, Button, Tooltip } from '~/components';
 import { useStore, actions } from '~/store';
+import { useState } from 'react';
+import { useRef } from 'react';
 
 function BoardDetail() {
     const [state, dispatch] = useStore();
     const { boards } = state;
     const { id } = useParams();
     const board = boards[id];
+    const [boardTitle, setBoardTitle] = useState(board ? board.title : '');
+
+    const handleOnChangeTitle = () => {
+        dispatch(actions.onChangeBoardTitle({ boardId: id, value: boardTitle }));
+    };
 
     const handleChangeFavor = () => {
         dispatch(actions.changeBoardFavor({ boardId: id, favor: !board.favor }));
@@ -24,10 +31,17 @@ function BoardDetail() {
 
     return (
         <div className="w-full">
-            <div className="px-4 mb-8 min-h-[5rem] flex items-center justify-between">
+            <div className="p-4 mb-8 min-h-[5rem] flex items-center justify-between">
                 {/* Left heading */}
                 <div>
-                    <h1 className="text-2xl font-semibold">{board.title}</h1>
+                    <div className="mb-2">
+                        <input
+                            onBlur={handleOnChangeTitle}
+                            onChange={(e) => setBoardTitle(e.target.value)}
+                            className="caret-blue-500 ease duration-200 outline-none ring ring-transparent rounded-md p-1 -m-1 hover:ring-blue-400 focus:ring-blue-400 text-2xl font-semibold"
+                            value={boardTitle}
+                        />
+                    </div>
                     <div className="flex items-center text-slate-500">
                         <p>Description of your project what do want to do</p>
                         <Tooltip message="You could modify the description later">

@@ -25,7 +25,7 @@ function PopperWrapper({
                     >
                         {colorPalette && <ColorPalette setCurrentColor={setCurrentColor} />}
                         {boardPanel && <BoardPanel data={boardPanel} />}
-                        {removalConfirmPanel && <RemovalConfirmPanel setToast={setToast} data={boardPanel} />}
+                        {removalConfirmPanel && <RemovalConfirmPanel setToast={setToast} data={removalConfirmPanel} />}
                     </div>
                 )}
             >

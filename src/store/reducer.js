@@ -1,5 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-import { CHANGE_BOARD_STATUS, CHANGE_BOARD_FAVOR, ADD_NEW_BOARD, DELETE_BOARD } from './constants';
+import {
+    ONCHANGE_BOARD_TITLE,
+    CHANGE_BOARD_STATUS,
+    CHANGE_BOARD_FAVOR,
+    ADD_NEW_BOARD,
+    DELETE_BOARD,
+} from './constants';
 
 const initState = {
     boards: {
@@ -43,16 +49,32 @@ function reducer(state, action) {
         case CHANGE_BOARD_STATUS:
             board = boards[action.payload.boardId];
 
-            return {
-                ...state,
-                boards: {
-                    ...boards,
-                    [action.payload.boardId]: {
-                        ...board,
-                        closed: action.payload.closed,
+            if (board.favor) {
+                return {
+                    ...state,
+                    boards: {
+                        ...boards,
+                        [action.payload.boardId]: {
+                            ...board,
+                            closed: action.payload.closed,
+                            favor: false,
+                        },
                     },
-                },
-            };
+                };
+            } else {
+                return {
+                    ...state,
+                    boards: {
+                        ...boards,
+                        [action.payload.boardId]: {
+                            ...board,
+                            closed: action.payload.closed,
+                            favor: false,
+                        },
+                    },
+                };
+            }
+
         case CHANGE_BOARD_FAVOR:
             board = boards[action.payload.boardId];
 
@@ -85,6 +107,19 @@ function reducer(state, action) {
                 ...state,
                 boards: {
                     ...boards,
+                },
+            };
+        case ONCHANGE_BOARD_TITLE:
+            board = boards[action.payload.boardId];
+
+            return {
+                ...state,
+                boards: {
+                    ...boards,
+                    [action.payload.boardId]: {
+                        ...board,
+                        title: action.payload.value,
+                    },
                 },
             };
 

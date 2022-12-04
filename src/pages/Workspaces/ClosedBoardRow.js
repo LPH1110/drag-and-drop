@@ -1,7 +1,11 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import classNames from 'classnames/bind';
+import styles from './ClosedBoardRow.module.scss';
 
 import { Button, PopperWrapper } from '~/components';
 import { useStore, actions } from '~/store';
+
+const cx = classNames.bind(styles);
 
 function ClosedBoardRow({ data, setToast }) {
     const [state, dispatch] = useStore();
@@ -14,16 +18,18 @@ function ClosedBoardRow({ data, setToast }) {
     return (
         <div className="py-4">
             <div className="flex items-center justify-between">
-                <h4 className="text-lg">{data.title}</h4>
+                <h4 className={cx('title', 'text-lg')}>{data.title}</h4>
                 <div className="flex items-center">
-                    <Button
-                        type="button"
-                        size="small"
-                        leftIcon={<XMarkIcon className="w-5 h-5" />}
-                        className="relative rounded-sm bg-slate-200 text-slate-700 hover:bg-slate-200/80 ease-in-out duration-200"
-                    >
-                        Delete
-                    </Button>
+                    <PopperWrapper placement="bottom-end" removalConfirmPanel={data} setToast={setToast}>
+                        <Button
+                            type="button"
+                            size="small"
+                            leftIcon={<XMarkIcon className="w-5 h-5" />}
+                            className="rounded-sm bg-slate-200 text-slate-700 hover:bg-slate-200/80 ease-in-out duration-200"
+                        >
+                            Delete
+                        </Button>
+                    </PopperWrapper>
                     <Button
                         type="button"
                         size="small"

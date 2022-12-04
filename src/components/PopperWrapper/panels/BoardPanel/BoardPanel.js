@@ -2,9 +2,13 @@ import { useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames/bind';
+import styles from './BoardPanel.module.scss';
 
 import { Button } from '~/components';
 import { useStore, actions } from '~/store';
+
+const cx = classNames.bind(styles);
 
 function BoardPanel({ data }) {
     const [forward, setForward] = useState(false);
@@ -19,7 +23,7 @@ function BoardPanel({ data }) {
             {!forward ? (
                 <div>
                     <div className="pt-2 pb-3 border-b border-slate-300 mb-2 relative flex justify-items-center">
-                        <h4 className="w-full font-semibold">{data.title}</h4>
+                        <h4 className={cx('title', 'w-full font-semibold')}>{data.title}</h4>
                         <Button type="button" className="text-slate-500 hover:text-slate-400 ease duration-200">
                             <XMarkIcon className="w-5 h-5" />
                         </Button>
