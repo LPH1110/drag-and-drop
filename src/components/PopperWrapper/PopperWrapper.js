@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
-import { BoardPanel, ColorPalette, RemovalConfirmPanel } from './panels';
+import { BoardPanel, ColorPalette, RemovalConfirmPanel, ReportFlag } from './panels';
 
 function PopperWrapper({
     removalConfirmPanel,
+    reportFlag,
     boardPanel,
     colorPalette,
     setCurrentColor,
@@ -26,6 +27,7 @@ function PopperWrapper({
                         {colorPalette && <ColorPalette setCurrentColor={setCurrentColor} />}
                         {boardPanel && <BoardPanel data={boardPanel} />}
                         {removalConfirmPanel && <RemovalConfirmPanel setToast={setToast} data={removalConfirmPanel} />}
+                        {reportFlag && <ReportFlag data={reportFlag} />}
                     </div>
                 )}
             >

@@ -20,13 +20,12 @@ function BoardDetail() {
     const { id } = useParams();
     const board = boards[id];
     const [boardTitle, setBoardTitle] = useState(board ? board.title : '');
-
     const handleOnChangeTitle = () => {
         dispatch(actions.onChangeBoardTitle({ boardId: id, value: boardTitle }));
     };
 
     const handleChangeFavor = () => {
-        dispatch(actions.changeBoardFavor({ boardId: id, favor: !board.favor }));
+        dispatch(actions.changeBoardFavor({ boardId: id, favor: !board.favor || false }));
     };
 
     return (
@@ -51,7 +50,7 @@ function BoardDetail() {
                         </Tooltip>
                         <Button type="button" onClick={handleChangeFavor}>
                             <span>
-                                {!board.favor ? (
+                                {board && !board.favor ? (
                                     <StarIconOutline className="w-5 h-5" />
                                 ) : (
                                     <StarIconSolid className="w-5 h-5 text-yellow-400" />

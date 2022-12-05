@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './Board.module.scss';
 import { CalendarDaysIcon, ChatBubbleLeftEllipsisIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 
-import { Button, Tooltip } from '~/components';
+import { Button, Tooltip, TaskDetail } from '~/components';
 
 const cx = classNames.bind(styles);
 
@@ -24,16 +24,18 @@ function ColumnItem({ data, index }) {
                         {/* Title */}
                         <div className="flex items-center justify-between w-full">
                             <h4 className="text-lg font-semibold">{data.title}</h4>
-                            <Tooltip message="Modify this task">
-                                <Button
+                            <div className="flex flex-col justify-items-center">
+                                <label
+                                    htmlFor={`task_${data.id}`}
                                     className={cx(
                                         'column-item-modify',
                                         'text-slate-500/50 hover:text-slate-700 ease duration-200',
                                     )}
                                 >
-                                    <PencilSquareIcon className="w-6 h-6" />
-                                </Button>
-                            </Tooltip>
+                                    <PencilSquareIcon className="w-5 h-5" />
+                                </label>
+                                <TaskDetail data={data} />
+                            </div>
                         </div>
                         {/* Priority */}
                         <p className="flex items-center text-slate-500 my-2">

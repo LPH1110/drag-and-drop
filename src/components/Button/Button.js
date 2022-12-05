@@ -9,14 +9,13 @@ const Button = forwardRef(({ size, children, disabled, rightIcon, leftIcon, clas
         [size]: size,
         [className]: className,
         disabled,
-        rightIcon,
-        leftIcon,
     });
 
     return (
         <button ref={ref} {...props} className={classes}>
             {leftIcon && <span className={cx('leftIcon')}>{leftIcon}</span>}
             <span className={cx('title')}>{children}</span>
+            {rightIcon && <span className={cx('rightIcon')}>{rightIcon}</span>}
         </button>
     );
 });
