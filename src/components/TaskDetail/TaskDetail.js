@@ -4,6 +4,12 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '../Button';
 import Comments from './Comments';
+import classNames from 'classnames/bind';
+import styles from './TaskDetail.module.scss';
+import WritingSection from './WritingSection';
+import { useStore } from '~/store';
+
+const cx = classNames.bind(styles);
 
 const avatars = [
     {
@@ -24,39 +30,10 @@ const avatars = [
     },
 ];
 
-const comments = {
-    [uuidv4()]: {
-        userId: 0,
-        userName: '@TrungNguyen',
-        content: 'Tui thấy nó lạ lắm á mọi người =))',
-        userThumbnail:
-            'https://res.cloudinary.com/dzzv49yec/image/upload/v1670092118/taskbox-assets/avatar2_fssdbw.jpg',
-    },
-    [uuidv4()]: {
-        userId: 1,
-        userName: '@HanhKhung',
-        content: 'Thật là một task thú vị',
-        userThumbnail:
-            'https://res.cloudinary.com/dzzv49yec/image/upload/v1670092118/taskbox-assets/avatar4_n1nbbs.jpg',
-    },
-    [uuidv4()]: {
-        userId: 2,
-        userName: '@HongNgoc',
-        content: 'Xi xi ba bla pa ra pẻng',
-        userThumbnail:
-            'https://res.cloudinary.com/dzzv49yec/image/upload/v1670092118/taskbox-assets/avatar3_clufwp.jpg',
-    },
-    [uuidv4()]: {
-        userId: 3,
-        userName: '@PhamHue',
-        content: 'Siu nhân xanh biến hìnhhhh',
-        userThumbnail:
-            'https://res.cloudinary.com/dzzv49yec/image/upload/v1670050964/taskbox-assets/avatar1_ilyzbz.jpg',
-    },
-};
-
 function TaskDetail({ data }) {
     const [taskTitle, setTaskTitle] = useState(data.title);
+    const [state, dispatch] = useStore();
+    const { comments } = state;
 
     return (
         <div>
@@ -109,7 +86,7 @@ function TaskDetail({ data }) {
                                                 <Button
                                                     rightIcon={<ChevronDownIcon className="w-4 h-4" />}
                                                     size="small"
-                                                    className="rounded-full font-semibold bg-yellow-300/50 text-slate-600"
+                                                    className="rounded-full font-semibold bg-yellow-300/50 text-slate-700"
                                                 >
                                                     Normal
                                                 </Button>
@@ -157,35 +134,7 @@ function TaskDetail({ data }) {
                         {/* Right col */}
                         <section className="p-4 border-l border-slate-200 max-h-full overflow-y-auto">
                             {/* Writing section */}
-                            <section className="mb-4">
-                                <div className="flex mb-4">
-                                    <div className="avatar">
-                                        <div className="w-12 h-12 rounded-full">
-                                            <img src="https://res.cloudinary.com/dzzv49yec/image/upload/v1670050964/taskbox-assets/avatar1_ilyzbz.jpg" />
-                                        </div>
-                                    </div>
-                                    <textarea
-                                        id="task-description"
-                                        className="ml-6 caret-blue-500 p-2 resize-none w-full outline-none border border-slate-200 rounded-lg"
-                                        rows={3}
-                                        placeholder="Say something..."
-                                    ></textarea>
-                                </div>
-                                <div className="flex justify-end items-center">
-                                    <Button
-                                        size="medium"
-                                        className="rounded-lg hover:bg-slate-100 text-slate-700 ease-in-out duration-200"
-                                    >
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        size="medium"
-                                        className="bg-blue-100/50 hover:bg-blue-100/30 hover:text-blue-300 ease-in-out duration-200 text-blue-400 font-semibold rounded-lg"
-                                    >
-                                        Comment
-                                    </Button>
-                                </div>
-                            </section>
+                            <WritingSection />
                             {/* Comments section*/}
                             <section className="">
                                 <Comments data={comments} />

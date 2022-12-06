@@ -20,7 +20,7 @@ function Workspaces() {
     };
 
     return (
-        <section>
+        <section className="ml-6">
             <section className="py-4 grid grid-cols-5 gap-x-4 gap-y-6">
                 {Object.entries(boards).map(
                     ([id, board]) =>
@@ -39,7 +39,7 @@ function Workspaces() {
                                         onClick={(e) => e.preventDefault()}
                                         className="z-2 p-1 hover:bg-slate-200 rounded-md ease duration-200"
                                     >
-                                        <PopperWrapper placement="bottom-end" boardPanel={{ ...board, id }}>
+                                        <PopperWrapper right placement="bottom-end" boardPanel={{ ...board, id }}>
                                             <EllipsisHorizontalIcon className="w-5 h-5" />
                                         </PopperWrapper>
                                     </Button>

@@ -4,6 +4,8 @@ import {
     ADD_NEW_BOARD,
     DELETE_BOARD,
     ONCHANGE_BOARD_TITLE,
+    ADD_NEW_COMMENT_TO_TASK,
+    DELETE_COMMENT_BY_ID,
 } from './constants';
 
 export const changeBoardFavor = (payload) => ({
@@ -28,5 +30,15 @@ export const deleteBoard = (payload) => ({
 
 export const onChangeBoardTitle = (payload) => ({
     type: ONCHANGE_BOARD_TITLE,
+    payload,
+});
+
+export const addNewCommentToTask = (payload) => ({
+    type: ADD_NEW_COMMENT_TO_TASK,
+    payload,
+});
+
+export const deleteCommentById = (payload) => ({
+    type: DELETE_COMMENT_BY_ID,
     payload,
 });

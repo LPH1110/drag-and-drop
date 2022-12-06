@@ -3,10 +3,14 @@ import Button from '../Button';
 import PopperWrapper from '../PopperWrapper';
 import classNames from 'classnames/bind';
 import styles from './TaskDetail.module.scss';
+import { useStore } from '~/store';
 
 const cx = classNames.bind(styles);
 
 function Comments({ data }) {
+    const [state, dispatch] = useStore();
+    const { userSession } = state;
+
     return (
         <div className="overflow-y-auto">
             {Object.entries(data).map(([id, comment]) => (
@@ -24,13 +28,23 @@ function Comments({ data }) {
                         <div className="flex justify-start items-center py-2">
                             <Button className="px-1">Like</Button>
                             <Button className="px-1">Reply</Button>
-                            <PopperWrapper reportFlag={{ userId: comment.userId }}>
-                                <Button className="px-1">
-                                    <span>
-                                        <EllipsisHorizontalIcon className="w-5 h-5" />
-                                    </span>
-                                </Button>
-                            </PopperWrapper>
+                            {userSession.id === comment.userId ? (
+                                <PopperWrapper updateComment={{ commentId: id }}>
+                                    <Button className="px-1">
+                                        <span>
+                                            <EllipsisHorizontalIcon className="w-5 h-5" />
+                                        </span>
+                                    </Button>
+                                </PopperWrapper>
+                            ) : (
+                                <PopperWrapper reportFlag={{ userId: comment.userId }}>
+                                    <Button className="px-1">
+                                        <span>
+                                            <EllipsisHorizontalIcon className="w-5 h-5" />
+                                        </span>
+                                    </Button>
+                                </PopperWrapper>
+                            )}
                         </div>
                     </div>
                 </div>

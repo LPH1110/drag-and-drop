@@ -113,7 +113,7 @@ function Board() {
 
     const handleAddColumn = (columnId) => {};
     return (
-        <section className={cx('board-container', 'ml-4 p-4 w-full flex h-screen bg-slate-100/40')}>
+        <section className={cx('board-container', 'p-6 w-full flex bg-slate-100/40')}>
             <DragDropContext onDragEnd={handleDragEnd}>
                 {Object.entries(cols).map(([id, col]) => {
                     return (

@@ -10,7 +10,7 @@ function ColumnHeading({ data }) {
     });
     return (
         <div>
-            <PopperWrapper placement="bottom-end" colorPalette setCurrentColor={setCurrentColor}>
+            <PopperWrapper left colorPalette setCurrentColor={setCurrentColor}>
                 <Button
                     size="small"
                     className={`text-md font-semibold ${currentColor.backgroundColor} ${currentColor.textColor} rounded-full`}

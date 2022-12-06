@@ -34,7 +34,7 @@ function ClosedBoardRow({ data, setToast }) {
                         type="button"
                         size="small"
                         onClick={(e) => handleReOpenBoard(e)}
-                        className="rounded-sm font-semibold bg-blue-200 text-blue-600 hover:bg-blue-200/80 ease-in-out duration-200"
+                        className="ml-2 rounded-sm font-semibold bg-blue-200 text-blue-600 hover:bg-blue-200/80 ease-in-out duration-200"
                     >
                         Reopen
                     </Button>

@@ -1,18 +1,41 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import {
     QuestionMarkCircleIcon,
     StarIcon as StarIconOutline,
     BellIcon,
     ChevronDownIcon,
     ShareIcon,
+    MagnifyingGlassIcon,
+    PlusIcon,
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
+import { Tab } from '@headlessui/react';
+import { v4 as uuidv4 } from 'uuid';
+import classNames from 'classnames/bind';
+import styles from './BoardDetail.module.scss';
 
 import { Board, Button, Tooltip } from '~/components';
 import { useStore, actions } from '~/store';
 import { useState } from 'react';
 import { useRef } from 'react';
+
+const cx = classNames.bind(styles);
+
+const tabs = [
+    {
+        id: uuidv4(),
+        title: 'Canban',
+    },
+    {
+        id: uuidv4(),
+        title: 'Timeline',
+    },
+    {
+        id: uuidv4(),
+        title: 'Calendar',
+    },
+];
 
 function BoardDetail() {
     const [state, dispatch] = useStore();
@@ -29,8 +52,9 @@ function BoardDetail() {
     };
 
     return (
-        <div className="w-full">
-            <div className="p-4 mb-8 min-h-[5rem] flex items-center justify-between">
+        <section className="w-full h-screen overflow-y-auto">
+            {/* Header */}
+            <section className="p-6 min-h-[5rem] flex items-center justify-between">
                 {/* Left heading */}
                 <div>
                     <div className="mb-2">
@@ -125,9 +149,66 @@ function BoardDetail() {
                         </span>
                     </button>
                 </div>
-            </div>
-            <Board />
-        </div>
+            </section>
+            {/* Navigations */}
+            <section className="p-6 mb-6 relative">
+                <Tab.Group>
+                    <Tab.List className="mb-3 py-2 border-t border-slate-100">
+                        <div className="inline-block relative">
+                            {tabs.map((tab) => (
+                                <Tab
+                                    className={cx(
+                                        'tab',
+                                        'ui-selected:text-slate-700 relative text-slate-300 py-2 px-3 outline-none font-semibold ease duration-200',
+                                    )}
+                                    key={tab.id}
+                                >
+                                    {({ selected }) =>
+                                        selected ? (
+                                            <>
+                                                <h4>{tab.title}</h4>
+                                                <div className="animate-span-from-left h-1 left-0 -bottom-[5%] right-0 absolute bg-blue-500 rounded-xl"></div>
+                                            </>
+                                        ) : (
+                                            <h4>{tab.title}</h4>
+                                        )
+                                    }
+                                </Tab>
+                            ))}
+                        </div>
+                        <div className="py-4 flex items-center justify-between">
+                            <div>Filters</div>
+                            <div className="flex items-center">
+                                <div className="flex items-center p-2.5 bg-slate-100 rounded-md text-slate-600">
+                                    <span className="mr-2">
+                                        <MagnifyingGlassIcon className="w-5 h-5" />
+                                    </span>
+                                    <input placeholder="Search something..." className="bg-transparent outline-none" />
+                                </div>
+                                <Button
+                                    className="h-full ml-4 rounded-md bg-blue-100 text-blue-500 font-semibold hover:bg-blue-100/70 hover:text-blue-500/70 ease-in-out duration-200"
+                                    size="medium"
+                                    leftIcon={<PlusIcon className="w-5 h-5" />}
+                                >
+                                    Add task
+                                </Button>
+                            </div>
+                        </div>
+                    </Tab.List>
+                    <Tab.Panels>
+                        <Tab.Panel className="absolute left-0 right-0">
+                            <Board />
+                        </Tab.Panel>
+                        <Tab.Panel>
+                            <div>Timeline panel</div>
+                        </Tab.Panel>
+                        <Tab.Panel>
+                            <div>Calendar panel</div>
+                        </Tab.Panel>
+                    </Tab.Panels>
+                </Tab.Group>
+            </section>
+        </section>
     );
 }
 
