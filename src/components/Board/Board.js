@@ -1,6 +1,6 @@
 import { DragDropContext } from '@hello-pangea/dnd';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './Board.module.scss';
 import Column from './Column';

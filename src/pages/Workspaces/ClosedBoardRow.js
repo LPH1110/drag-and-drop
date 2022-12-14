@@ -20,7 +20,7 @@ function ClosedBoardRow({ data, setToast }) {
             <div className="flex items-center justify-between">
                 <h4 className={cx('title', 'text-lg')}>{data.title}</h4>
                 <div className="flex items-center">
-                    <PopperWrapper placement="bottom-end" removalConfirmPanel={data} setToast={setToast}>
+                    <PopperWrapper right placement="bottom-end" removalConfirmPanel={data} setToast={setToast}>
                         <Button
                             type="button"
                             size="small"
