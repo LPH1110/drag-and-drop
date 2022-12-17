@@ -1,16 +1,29 @@
 {
   "files": {
-    "main.css": "/drag-and-drop/static/css/main.6202fa18.css",
-    "main.js": "/drag-and-drop/static/js/main.ffc84cfb.js",
+    "main.css": "/drag-and-drop/static/css/main.823c7c98.css",
+    "main.js": "/drag-and-drop/static/js/main.d1684c76.js",
     "static/js/787.d2363613.chunk.js": "/drag-and-drop/static/js/787.d2363613.chunk.js",
+    "static/media/landingWallpaper.png": "/drag-and-drop/static/media/landingWallpaper.f7a7466ce311cd9a22f1.png",
+    "static/media/redo.png": "/drag-and-drop/static/media/redo.6021e43d7871fce73cf8.png",
+    "static/media/mailchimp.svg": "/drag-and-drop/static/media/mailchimp.f2862861d402066f0d2f7b24e765823e.svg",
+    "static/media/intercom.svg": "/drag-and-drop/static/media/intercom.400ab9bdc8f2ad205a2078cc93d0fa9b.svg",
+    "static/media/discord.svg": "/drag-and-drop/static/media/discord.1474cf184b13d66c99574f10e917179e.svg",
+    "static/media/dropboxsign.svg": "/drag-and-drop/static/media/dropboxsign.460b4225d72fce5d32a93384141cbc5f.svg",
+    "static/media/grammarly.svg": "/drag-and-drop/static/media/grammarly.b2ab9b097024bd886ffe8c570a653618.svg",
+    "static/media/pipedrive.svg": "/drag-and-drop/static/media/pipedrive.71d78116dfe3f093af226e617b611eac.svg",
+    "static/media/dropbox-text.svg": "/drag-and-drop/static/media/dropbox-text.100b53d4bb18f606f79d4ed242522823.svg",
+    "static/media/square.svg": "/drag-and-drop/static/media/square.5f945b965e2b24b3b8ac62a98ee12ba0.svg",
+    "static/media/twitter.svg": "/drag-and-drop/static/media/twitter.291c99022d20c93b489554072ef77bf7.svg",
     "index.html": "/drag-and-drop/index.html",
+    "static/media/facebook.svg": "/drag-and-drop/static/media/facebook.ae1500a7c5f300ebfb8a05225acaebd7.svg",
+    "static/media/dropbox-box.svg": "/drag-and-drop/static/media/dropbox-box.9a3e74640f76b9e88f61670dc2fb5b88.svg",
     "static/media/index.cjs": "/drag-and-drop/static/media/index.cd351d7c31d0d3fccf96.cjs",
-    "main.6202fa18.css.map": "/drag-and-drop/static/css/main.6202fa18.css.map",
-    "main.ffc84cfb.js.map": "/drag-and-drop/static/js/main.ffc84cfb.js.map",
+    "main.823c7c98.css.map": "/drag-and-drop/static/css/main.823c7c98.css.map",
+    "main.d1684c76.js.map": "/drag-and-drop/static/js/main.d1684c76.js.map",
     "787.d2363613.chunk.js.map": "/drag-and-drop/static/js/787.d2363613.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6202fa18.css",
-    "static/js/main.ffc84cfb.js"
+    "static/css/main.823c7c98.css",
+    "static/js/main.d1684c76.js"
   ]
 }
