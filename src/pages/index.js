@@ -5,3 +5,5 @@ export { default as Overview } from './Overview';
 export { default as Inbox } from './Inbox';
 export { default as Meeting } from './Meeting';
 export { default as Issues } from './Issues';
+export { default as Pricing } from './Pricing';
+export { default as Login } from './Login';

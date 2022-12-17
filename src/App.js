@@ -16,11 +16,11 @@ function App() {
                             path={route.path}
                             exact
                             element={
-                                <Layout>
-                                    <ScrollToTop>
+                                <ScrollToTop>
+                                    <Layout>
                                         <Component />
-                                    </ScrollToTop>
-                                </Layout>
+                                    </Layout>
+                                </ScrollToTop>
                             }
                         />
                     ) : (
@@ -28,11 +28,11 @@ function App() {
                             key={route.id}
                             path={route.path}
                             element={
-                                <Layout>
-                                    <ScrollToTop>
+                                <ScrollToTop>
+                                    <Layout>
                                         <Component />
-                                    </ScrollToTop>
-                                </Layout>
+                                    </Layout>
+                                </ScrollToTop>
                             }
                         />
                     );
