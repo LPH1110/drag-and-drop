@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '~/components';
+import { Button, FadeEffect } from '~/components';
 import images from '~/assets';
 
 import {
@@ -109,63 +109,75 @@ function Home() {
             {/* Stack Review */}
             <section className="py-12 px-36 grid grid-cols-2">
                 <div className="py-24 max-w-[80%] flex flex-col justify-between items-start">
-                    <div data-aos="fade-right" className="inline p-2 rounded-xl bg-gray-900">
-                        <Square3Stack3DIcon className="w-6 h-6 text-white" />
-                    </div>
-                    <div data-aos="fade-right" className="font-semibold text-3xl">
-                        <h4>Easily visualize your tasks</h4>
-                    </div>
-                    <p data-aos="fade-right" className="text-slate-500 text-justify">
-                        From here you can see the details of the task as you run. Additionally, you'll be able to see
-                        the status, peoples, deadlines, etc.
-                    </p>
-                    <Button
-                        data-aos="fade-right"
-                        type="button"
-                        onClick={() => navigate('/workspaces')}
-                        className="font-semibold text-blue-500 hover:text-blue-400 ease duration-200"
-                        rightIcon={<ArrowSmallRightIcon className="w-5 h-5" />}
-                    >
-                        Explore now
-                    </Button>
-                </div>
-                <div
-                    className="opacity-80 shadow-2xl rounded-xl bg-no-repeat bg-cover pt-[80%]"
-                    style={{
-                        backgroundImage:
-                            'url(https://res.cloudinary.com/dzzv49yec/image/upload/v1671255554/taskbox-assets/taskdetail_wewtrq.png)',
-                    }}
-                ></div>
-            </section>
-            <section className="py-12 px-36 grid grid-cols-2">
-                <div
-                    className="opacity-80 shadow-2xl rounded-xl bg-no-repeat bg-cover pt-[80%]"
-                    style={{
-                        backgroundImage:
-                            'url(https://res.cloudinary.com/dzzv49yec/image/upload/v1671256270/taskbox-assets/landingWallpaper_laepbh.png)',
-                    }}
-                ></div>
-                <div className="py-24 flex items-center justify-center">
-                    <div className="h-full max-w-[80%] flex flex-col justify-between items-start">
-                        <div data-aos="fade-left" className="inline p-2 rounded-xl bg-gray-900">
-                            <UsersIcon className="w-6 h-6 text-white" />
+                    <FadeEffect damping={0.2} direction="left">
+                        <div className="block p-2 rounded-xl bg-gray-900">
+                            <Square3Stack3DIcon className="w-6 h-6 text-white" />
                         </div>
-                        <div data-aos="fade-left" className="font-semibold text-3xl">
-                            <h4>Set up your own meeting</h4>
+
+                        <div className="font-semibold text-3xl">
+                            <h4>Easily visualize your tasks</h4>
                         </div>
-                        <p data-aos="fade-left" className="text-slate-500 text-justify">
-                            This page has been demonstrating all the meetings. Such as upcoming, pending, etc and you
-                            can set dates from the calendar.
+
+                        <p className="text-slate-500 text-justify">
+                            From here you can see the details of the task as you run. Additionally, you'll be able to
+                            see the status, peoples, deadlines, etc.
                         </p>
+
                         <Button
-                            data-aos="fade-left"
                             type="button"
-                            onClick={() => navigate('/meeting')}
+                            onClick={() => navigate('/workspaces')}
                             className="font-semibold text-blue-500 hover:text-blue-400 ease duration-200"
                             rightIcon={<ArrowSmallRightIcon className="w-5 h-5" />}
                         >
-                            Set up a meeting
+                            Explore now
                         </Button>
+                    </FadeEffect>
+                </div>
+                <FadeEffect direction="up">
+                    <div
+                        className="opacity-80 shadow-2xl rounded-xl bg-no-repeat bg-cover pt-[80%]"
+                        style={{
+                            backgroundImage:
+                                'url(https://res.cloudinary.com/dzzv49yec/image/upload/v1671255554/taskbox-assets/taskdetail_wewtrq.png)',
+                        }}
+                    ></div>
+                </FadeEffect>
+            </section>
+            <section className="py-12 px-36 grid grid-cols-2">
+                <FadeEffect direction="up">
+                    <div
+                        className="opacity-80 shadow-2xl rounded-xl bg-no-repeat bg-cover pt-[80%]"
+                        style={{
+                            backgroundImage:
+                                'url(https://res.cloudinary.com/dzzv49yec/image/upload/v1671256270/taskbox-assets/landingWallpaper_laepbh.png)',
+                        }}
+                    ></div>
+                </FadeEffect>
+                <div className="py-24 flex items-center justify-center">
+                    <div className="h-full max-w-[80%] flex flex-col justify-between items-start">
+                        <FadeEffect damping={0.2} direction="right">
+                            <div className="block p-2 rounded-xl bg-gray-900">
+                                <UsersIcon className="w-6 h-6 text-white" />
+                            </div>
+
+                            <div className="font-semibold text-3xl">
+                                <h4>Set up your own meeting</h4>
+                            </div>
+
+                            <p className="text-slate-500 text-justify">
+                                This page has been demonstrating all the meetings. Such as upcoming, pending, etc and
+                                you can set dates from the calendar.
+                            </p>
+
+                            <Button
+                                type="button"
+                                onClick={() => navigate('/meeting')}
+                                className="font-semibold text-blue-500 hover:text-blue-400 ease duration-200"
+                                rightIcon={<ArrowSmallRightIcon className="w-5 h-5" />}
+                            >
+                                Set up a meeting
+                            </Button>
+                        </FadeEffect>
                     </div>
                 </div>
             </section>
@@ -176,36 +188,38 @@ function Home() {
             {/* Join us */}
             <section className="py-12 w-full flex items-center justify-center">
                 <div className="rounded-xl shadow-lg pt-12 pb-8  w-4/6 flex flex-col items-center justify-center">
-                    <h1 className="text-3xl font-semibold mb-2">Join 20M+ users today</h1>
-                    <p className="text-slate-500">Get started for free - upgrade anytime</p>
-                    <Button
-                        type="button"
-                        size="large"
-                        onClick={() => navigate('/workspaces')}
-                        className="font-semibold my-6 bg-blue-500 text-white hover:bg-blue-400 ease-in-out duration-200"
-                    >
-                        Get Started
-                    </Button>
-                    <div className="flex items-center text-sm">
-                        <div className="flex items-center">
-                            <span className="mr-1">
-                                <CheckCircleIcon className="w-5 h-5" />
-                            </span>
-                            <p>Simple and easy</p>
+                    <FadeEffect direction="up">
+                        <h1 className="text-3xl font-semibold mb-2">Join 20M+ users today</h1>
+                        <p className="text-slate-500">Get started for free - upgrade anytime</p>
+                        <Button
+                            type="button"
+                            size="large"
+                            onClick={() => navigate('/workspaces')}
+                            className="font-semibold my-6 bg-blue-500 text-white hover:bg-blue-400 ease-in-out duration-200"
+                        >
+                            Get Started
+                        </Button>
+                        <div className="flex items-center text-sm">
+                            <div className="flex items-center">
+                                <span className="mr-1">
+                                    <CheckCircleIcon className="w-5 h-5" />
+                                </span>
+                                <p>Simple and easy</p>
+                            </div>
+                            <div className="flex items-center mx-4">
+                                <span className="mr-1">
+                                    <CheckCircleIcon className="w-5 h-5" />
+                                </span>
+                                <p>Powerful tools</p>
+                            </div>
+                            <div className="flex items-center">
+                                <span className="mr-1">
+                                    <CheckCircleIcon className="w-5 h-5" />
+                                </span>
+                                <p>Complete integrations</p>
+                            </div>
                         </div>
-                        <div className="flex items-center mx-4">
-                            <span className="mr-1">
-                                <CheckCircleIcon className="w-5 h-5" />
-                            </span>
-                            <p>Powerful tools</p>
-                        </div>
-                        <div className="flex items-center">
-                            <span className="mr-1">
-                                <CheckCircleIcon className="w-5 h-5" />
-                            </span>
-                            <p>Complete integrations</p>
-                        </div>
-                    </div>
+                    </FadeEffect>
                 </div>
             </section>
         </section>

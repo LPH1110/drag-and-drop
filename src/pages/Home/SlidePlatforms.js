@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Carousel } from '~/components';
-import { ArrowUpIcon } from '@heroicons/react/24/solid';
+import { Button, Carousel } from '~/components';
+import { ArrowUpRightIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 
@@ -58,12 +58,25 @@ const platforms = [
         description: 'Dropbox is the choice for storing and sharing your most important files.',
         thumbnail: 'https://res.cloudinary.com/dzzv49yec/image/upload/v1671324012/taskbox-assets/dropbox_q4x4be.png',
     },
+    {
+        id: uuidv4(),
+        name: 'Asana',
+        description: 'Asana organizes work so teams know what to do, why it matters, and how to get it done.',
+        thumbnail: 'https://res.cloudinary.com/dzzv49yec/image/upload/v1671519755/taskbox-assets/asana_cvx9z2.png',
+    },
+    {
+        id: uuidv4(),
+        name: 'Google Calendar',
+        description: 'Time-management and scheduling calendar service developed by Google',
+        thumbnail:
+            'https://res.cloudinary.com/dzzv49yec/image/upload/v1671324012/taskbox-assets/google-calendar_hrmxyp.png',
+    },
 ];
 
 function SlidePlatforms({ className }) {
     const carouselSettings1 = {
         infinite: true,
-        speed: 5000,
+        speed: 3000,
         lazyLoad: true,
         slidesToShow: 5,
         slidesToScroll: 1,
@@ -71,7 +84,7 @@ function SlidePlatforms({ className }) {
     };
     const carouselSettings2 = {
         infinite: true,
-        speed: 5000,
+        speed: 3000,
         lazyLoad: true,
         slidesToShow: 5,
         slidesToScroll: 1,
@@ -94,8 +107,15 @@ function SlidePlatforms({ className }) {
                     {platforms.map((app) => (
                         <div key={app.id} className="">
                             <div className="mx-4 bg-white rounded-xl shadow-sm p-6">
-                                <div className="w-12 h-12 p-2 border border-slate-300/50 rounded-lg">
-                                    <img src={app.thumbnail} />
+                                <div className="flex items-start justify-between">
+                                    <div className="w-12 h-12 p-2 border border-slate-300/50 rounded-lg">
+                                        <img src={app.thumbnail} />
+                                    </div>
+                                    <Button className="hover:bg-slate-100 ease-in-out duration-200 p-3 font-semibold border border-slate-200/50 rounded-full">
+                                        <span>
+                                            <ArrowUpRightIcon className="w-3 h-3" />
+                                        </span>
+                                    </Button>
                                 </div>
                                 <div className="mt-4">
                                     <h4 className="text-slate-700 font-semibold text-lg">{app.name}</h4>
@@ -111,10 +131,17 @@ function SlidePlatforms({ className }) {
             <div>
                 <Carousel autoplay settings={carouselSettings2}>
                     {platforms.map((app) => (
-                        <div key={app.id} className="">
+                        <div key={app.id + '1'} className="">
                             <div className="mx-4 bg-white rounded-xl shadow-sm p-6">
-                                <div className="w-12 h-12 p-2 border border-slate-300/50 rounded-lg">
-                                    <img src={app.thumbnail} />
+                                <div className="flex items-start justify-between">
+                                    <div className="w-12 h-12 p-2 border border-slate-300/50 rounded-lg">
+                                        <img src={app.thumbnail} />
+                                    </div>
+                                    <Button className="hover:bg-slate-100 ease-in-out duration-200 p-3 border border-slate-200/50 rounded-full">
+                                        <span>
+                                            <ArrowUpRightIcon className="w-3 h-3" />
+                                        </span>
+                                    </Button>
                                 </div>
                                 <div className="mt-4">
                                     <h4 className="text-slate-700 font-semibold text-lg">{app.name}</h4>
