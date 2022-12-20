@@ -1,3 +1,4 @@
+import React from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames/bind';
 import styles from './ClosedBoardRow.module.scss';

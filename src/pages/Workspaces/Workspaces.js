@@ -1,3 +1,4 @@
+import React from 'react';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames/bind';

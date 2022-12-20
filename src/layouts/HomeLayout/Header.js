@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '~/components';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
@@ -6,9 +6,27 @@ import { NavLink } from 'react-router-dom';
 
 function Header() {
     const navigate = useNavigate();
+    const headerRef = useRef();
+
+    useEffect(() => {
+        const handleWindowScroll = (e) => {
+            if (window.scrollY > 20) {
+                headerRef.current.classList.add('shadow-lg');
+            } else {
+                headerRef.current.classList.remove('shadow-lg');
+            }
+        };
+        window.addEventListener('scroll', handleWindowScroll);
+        return () => {
+            window.removeEventListener('scroll', handleWindowScroll);
+        };
+    }, []);
 
     return (
-        <header className="border-b border-slate-200 h-20 col-span-12 px-12 flex items-center justify-between">
+        <header
+            ref={headerRef}
+            className="ease-in-out duration-300 bg-white z-[10000] fixed top-0 inset-x-0 border-b border-slate-200 h-20 col-span-12 px-12 flex items-center justify-between"
+        >
             <div className="flex items-center">
                 <Button size="small" href="/" className="flex mr-2">
                     <span className="font-semibold text-4xl text-blue-600">T</span>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
 import Button from '../Button';
 import PopperWrapper from '../PopperWrapper';

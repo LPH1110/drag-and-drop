@@ -1,3 +1,4 @@
+import React from 'react';
 import { Droppable } from '@hello-pangea/dnd';
 import { EllipsisHorizontalIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames/bind';

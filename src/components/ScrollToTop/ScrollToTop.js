@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 function ScrollToTop({ children }) {
     console.log('Scroll to top!');

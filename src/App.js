@@ -1,10 +1,11 @@
+import React, { useEffect, useState } from 'react';
 import { publicRoutes as routes } from './routes';
 import { Routes, Route } from 'react-router-dom';
 import { ScrollToTop, Modal } from './components';
 
 function App() {
     return (
-        <div className="App overflow-x-hidden">
+        <div className="App">
             <Routes>
                 {routes.map((route) => {
                     const Layout = route.layout;

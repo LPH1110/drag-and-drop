@@ -1,3 +1,4 @@
+import React from 'react';
 import { Draggable } from '@hello-pangea/dnd';
 import classNames from 'classnames/bind';
 import styles from './Board.module.scss';

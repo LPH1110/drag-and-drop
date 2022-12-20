@@ -1,3 +1,4 @@
+import React from 'react';
 import { DragDropContext } from '@hello-pangea/dnd';
 import classNames from 'classnames/bind';
 import { useState, useEffect } from 'react';

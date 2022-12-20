@@ -1,3 +1,4 @@
+import React from 'react';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import './Toast-overrides.scss';
 
