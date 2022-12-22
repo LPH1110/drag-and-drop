@@ -1,4 +1,4 @@
-import { Login, Workspaces, BoardDetail, Home, Overview, Inbox, Meeting, Issues, Pricing } from '~/pages';
+import { Signin, Signup, Workspaces, BoardDetail, Home, Overview, Inbox, Meeting, Issues, Pricing } from '~/pages';
 import { DefaultLayout, WrapperLayout, HomeLayout } from '~/layouts';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,7 +11,8 @@ const publicRoutes = [
     { id: uuidv4(), path: '/meeting', component: Meeting, layout: DefaultLayout },
     { id: uuidv4(), path: '/issues', component: Issues, layout: DefaultLayout },
     { id: uuidv4(), path: '/pricing', component: Pricing, layout: HomeLayout },
-    { id: uuidv4(), path: '/login', component: Login, layout: WrapperLayout },
+    { id: uuidv4(), path: '/signin', component: Signin, layout: WrapperLayout },
+    { id: uuidv4(), path: '/signup', component: Signup, layout: WrapperLayout },
 ];
 
 export { publicRoutes };

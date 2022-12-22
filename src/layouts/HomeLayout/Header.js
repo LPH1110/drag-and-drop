@@ -79,7 +79,7 @@ function Header() {
             </div>
             <div className="flex items-center">
                 <Button
-                    to="/login"
+                    to="/signin"
                     className="text-slate-700 hover:text-blue-500 font-semibold ease-in-out duration-200"
                     size="small"
                 >

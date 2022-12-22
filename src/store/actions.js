@@ -6,7 +6,13 @@ import {
     ONCHANGE_BOARD_TITLE,
     ADD_NEW_COMMENT_TO_TASK,
     DELETE_COMMENT_BY_ID,
+    SET_USER_SESSION,
 } from './constants';
+
+export const setUserSession = (payload) => ({
+    type: SET_USER_SESSION,
+    payload,
+});
 
 export const changeBoardFavor = (payload) => ({
     type: CHANGE_BOARD_FAVOR,

@@ -8,9 +8,14 @@ import {
     DELETE_BOARD,
     ADD_NEW_COMMENT_TO_TASK,
     DELETE_COMMENT_BY_ID,
+    SET_USER_SESSION,
 } from './constants';
 
 const initState = {
+    userSession: {
+        loggedIn: false,
+        info: {},
+    },
     userSession: {
         id: 1110,
     },
@@ -87,6 +92,16 @@ function reducer(state, action) {
     const { comments } = state;
     let board;
     switch (action.type) {
+        case SET_USER_SESSION:
+            return {
+                ...state,
+                userSession: {
+                    loggedIn: action.payload.loggedIn,
+                    info: {
+                        ...action.payload.info,
+                    },
+                },
+            };
         case DELETE_COMMENT_BY_ID:
             delete comments[action.payload.commentId];
 
