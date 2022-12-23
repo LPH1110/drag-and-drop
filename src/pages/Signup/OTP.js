@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from '~/components';
 import CountDown from './CountDown';
+import { useStore } from '~/store';
 
 const initialOtp = {
     [uuidv4()]: {
@@ -20,6 +21,9 @@ const initialOtp = {
 };
 
 function OTP() {
+    const [state, dispatch] = useStore();
+    const { OTPcode } = state;
+    console.log(OTPcode);
     const [otp, setOtp] = useState(initialOtp);
     const [error, setError] = useState('');
     const [showTimer, setShowTimer] = useState(false);
@@ -28,6 +32,7 @@ function OTP() {
     const validateOTP = () => {
         let result = '';
         let errorMessage = '';
+        let index = 0;
 
         Object.entries(otp).forEach(([id, data]) => {
             if (data.value === '') {
@@ -36,6 +41,7 @@ function OTP() {
             } else {
                 result += data.value;
             }
+            index++;
         });
 
         if (!errorMessage) {
@@ -46,13 +52,13 @@ function OTP() {
 
     const handleTimer = () => {
         setShowTimer(true);
-
         setTimeout(() => {
             setShowTimer(false);
         }, 60000);
     };
 
     const handleChange = (element, dataId) => {
+        console.log('input changed');
         if (isNaN(element.value)) return false;
 
         setError('');
@@ -77,7 +83,7 @@ function OTP() {
             <div className="grid grid-cols-4 gap-x-6">
                 {Object.entries(otp).map(([id, data]) => (
                     <input
-                        className="text-center text-2xl py-2 outline-none ring ring-transparent focus:ring-blue-500 ease duration-200 bg-slate-100 rounded-xl"
+                        className="text-center text-2xl py-2 outline-none ring ring-transparent focus:ring-blue-500 focus:bg-slate-100 ease duration-200 bg-slate-200 rounded-xl"
                         key={id}
                         value={data.value}
                         maxLength={1}

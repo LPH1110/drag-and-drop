@@ -10,3 +10,4 @@ export { default as TaskDetail } from './TaskDetail';
 export { default as DatePicker } from './DatePicker';
 export { default as Carousel } from './Carousel';
 export { default as FadeEffect } from './FadeEffect';
+export { default as Spinner } from './Spinner';

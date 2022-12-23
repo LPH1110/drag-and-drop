@@ -6,3 +6,4 @@ export const ONCHANGE_BOARD_TITLE = 'onchange_board_title';
 export const ADD_NEW_COMMENT_TO_TASK = 'add_new_comment_to_task';
 export const DELETE_COMMENT_BY_ID = 'delete_comment_by_id';
 export const SET_USER_SESSION = 'set_user_session';
+export const SET_OTP_CODE = 'set_otp_code';

@@ -7,7 +7,13 @@ import {
     ADD_NEW_COMMENT_TO_TASK,
     DELETE_COMMENT_BY_ID,
     SET_USER_SESSION,
+    SET_OTP_CODE,
 } from './constants';
+
+export const setOTPcode = (payload) => ({
+    type: SET_OTP_CODE,
+    payload,
+});
 
 export const setUserSession = (payload) => ({
     type: SET_USER_SESSION,

@@ -9,9 +9,11 @@ import {
     ADD_NEW_COMMENT_TO_TASK,
     DELETE_COMMENT_BY_ID,
     SET_USER_SESSION,
+    SET_OTP_CODE,
 } from './constants';
 
 const initState = {
+    OTPcode: '',
     userSession: {
         loggedIn: false,
         info: {},
@@ -92,6 +94,11 @@ function reducer(state, action) {
     const { comments } = state;
     let board;
     switch (action.type) {
+        case SET_OTP_CODE:
+            return {
+                ...state,
+                OTPcode: action.payload,
+            };
         case SET_USER_SESSION:
             return {
                 ...state,

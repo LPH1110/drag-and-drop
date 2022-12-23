@@ -1,13 +1,18 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '~/components';
+import emailjs from '@emailjs/browser';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
+
+import { Button, Spinner } from '~/components';
 import OTP from './OTP';
+import { useStore, actions } from '~/store';
 
 function Signup() {
+    const [state, dispatch] = useStore();
     const [showPassword, setShowPassword] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
     const [forward, setForward] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
     const passwordInputRef = useRef();
@@ -34,11 +39,34 @@ function Signup() {
         validationSchema: Yup.object().shape({
             email: Yup.string().email('Invalid email address').required('Required field'),
             password: Yup.string().min(8).required('Required field'),
-            passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
+            passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Password must match'),
         }),
 
-        onSubmit: (data) => {
+        onSubmit: async (data) => {
+            setShowLoading(true);
             console.log(data);
+            const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
+            dispatch(actions.setOTPcode(otpCode));
+
+            try {
+                const res = await emailjs.send(
+                    'service_7h1hbr1',
+                    'template_3fq68xe',
+                    {
+                        from_name: 'Taskbox Founder',
+                        to_email: data.email,
+                        to_name: 'taskboxer',
+                        message: otpCode,
+                    },
+                    'A3Uj8TuJqV8IVObAM',
+                );
+                console.log('SENT SUCCESS!', res.status, res.text);
+            } catch (e) {
+                console.log('SENT FAILED...', e);
+            }
+
+            setShowLoading(false);
+
             setForward(true);
         },
     });
@@ -146,6 +174,7 @@ function Signup() {
 
                                 <Button
                                     size="large"
+                                    leftIcon={showLoading ? <Spinner /> : null}
                                     className="mt-4 w-full font-semibold bg-blue-500 text-white hover:bg-blue-400 ease-in-out duration-200"
                                     type="submit"
                                 >
