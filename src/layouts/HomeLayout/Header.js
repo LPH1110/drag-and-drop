@@ -1,10 +1,49 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '~/components';
+import { v4 as uuidv4 } from 'uuid';
+import { Button, PopperWrapper } from '~/components';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import {
+    Cog6ToothIcon,
+    QuestionMarkCircleIcon,
+    UserCircleIcon,
+    ArrowRightOnRectangleIcon,
+} from '@heroicons/react/24/outline';
 import { NavLink } from 'react-router-dom';
+import { useStore, actions } from '~/store';
 
 function Header() {
+    const [userMenuActions, setUserMenuActions] = useState([
+        {
+            id: uuidv4(),
+            title: 'Profile',
+            icon: <UserCircleIcon />,
+            to: '/Profile',
+        },
+        {
+            id: uuidv4(),
+            title: 'Settings',
+            icon: <Cog6ToothIcon />,
+            to: '/settings',
+        },
+        {
+            id: uuidv4(),
+            title: 'Get help',
+            icon: <QuestionMarkCircleIcon />,
+            to: '/helps',
+        },
+        {
+            id: uuidv4(),
+            title: 'Sign out',
+            topDivider: true,
+            icon: <ArrowRightOnRectangleIcon />,
+            onClick() {
+                dispatch(actions.setUserSession({ loggedIn: false, info: {} }));
+            },
+        },
+    ]);
+    const [state, dispatch] = useStore();
+    const { userSession } = state;
     const navigate = useNavigate();
     const headerRef = useRef();
 
@@ -78,21 +117,33 @@ function Header() {
                 </div>
             </div>
             <div className="flex items-center">
-                <Button
-                    to="/signin"
-                    className="text-slate-700 hover:text-blue-500 font-semibold ease-in-out duration-200"
-                    size="small"
-                >
-                    Login
-                </Button>
-                <Button
-                    size="medium"
-                    type="button"
-                    onClick={() => navigate('/workspaces')}
-                    className="bg-blue-500 font-semibold text-white hover:bg-blue-400 ease-in-out duration-200"
-                >
-                    Get Started
-                </Button>
+                {userSession.loggedIn ? (
+                    <PopperWrapper placement="bottom-end" right userMenuActions={userMenuActions}>
+                        <div className="avatar p-1 rounded-full hover:bg-blue-100 ease-in-out duration-200 cursor-pointer">
+                            <div className="w-10 rounded-full">
+                                <img src="https://res.cloudinary.com/dzzv49yec/image/upload/v1670050964/taskbox-assets/avatar1_ilyzbz.jpg" />
+                            </div>
+                        </div>
+                    </PopperWrapper>
+                ) : (
+                    <>
+                        <Button
+                            to="/signin"
+                            className="text-slate-700 hover:text-blue-500 font-semibold ease-in-out duration-200"
+                            size="small"
+                        >
+                            Login
+                        </Button>
+                        <Button
+                            size="medium"
+                            type="button"
+                            onClick={() => navigate('/workspaces')}
+                            className="bg-blue-500 font-semibold text-white hover:bg-blue-400 ease-in-out duration-200"
+                        >
+                            Get Started
+                        </Button>
+                    </>
+                )}
             </div>
         </header>
     );

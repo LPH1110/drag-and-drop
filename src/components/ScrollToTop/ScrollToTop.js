@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 function ScrollToTop({ children }) {
-    console.log('Scroll to top!');
     useEffect(() => {
         window.scrollTo({
             top: 0,

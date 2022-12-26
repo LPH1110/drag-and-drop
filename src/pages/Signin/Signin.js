@@ -1,13 +1,25 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '~/components';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
 import { CheckIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
+import bcrypt from 'bcryptjs';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { useFormik } from 'formik';
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import { Button, Spinner, Toast, Tooltip } from '~/components';
+import { db } from '~/firebase-config';
+import { actions, useStore } from '~/store';
 
 function Signin() {
+    const [state, dispatch] = useStore();
     const [rememberChecked, setRememberChecked] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [showSpinner, setShowSpinner] = useState(false);
+    const [showToast, setShowToast] = useState(false);
+    const [toastBody, setToastBody] = useState({
+        message: '',
+        status: '',
+    });
     const passwordInputRef = useRef();
     const navigate = useNavigate();
 
@@ -31,8 +43,40 @@ function Signin() {
             password: Yup.string().min(8).required('Required field'),
         }),
 
-        onSubmit: (data) => {
+        onSubmit: async (data) => {
+            setShowSpinner(true);
+            setTimeout(() => setShowSpinner(false), 4000);
+            console.log('Submitted Data:');
             console.log(data);
+            try {
+                const q = query(collection(db, 'accounts'), where('email', '==', data.email));
+                onSnapshot(q, (snapshot) => {
+                    snapshot.docs.forEach((doc) => {
+                        const { email, password } = doc.data();
+                        bcrypt.compare(data.password, password, (err, result) => {
+                            if (result) {
+                                setToastBody({
+                                    message: 'Log in successfully',
+                                    status: 'success',
+                                });
+                                dispatch(actions.setUserSession({ loggedIn: true, info: {} }));
+                                setTimeout(() => setShowToast(true), 1000);
+                                setTimeout(() => setShowToast(false), 3000);
+                                setTimeout(() => navigate('/'), 4000);
+                            } else {
+                                setToastBody({
+                                    message: 'Please check your credentials again',
+                                    status: 'error',
+                                });
+                                setTimeout(() => setShowToast(true), 1000);
+                                setTimeout(() => setShowToast(false), 3000);
+                            }
+                        });
+                    });
+                });
+            } catch (e) {
+                console.error('Failed to fetch account');
+            }
         },
     });
 
@@ -134,6 +178,7 @@ function Signin() {
                                 size="large"
                                 className="mt-4 w-full font-semibold bg-blue-500 text-white hover:bg-blue-400 ease-in-out duration-200"
                                 type="submit"
+                                leftIcon={showSpinner ? <Spinner className="w-5 h-5" /> : null}
                             >
                                 Sign in
                             </Button>
@@ -168,6 +213,17 @@ function Signin() {
                 </section>
             </section>
             <section className="bg-blue-500"></section>
+            <Tooltip placement="right-start" message="Go back to home">
+                <Button
+                    className="my-4 ease duration-200 text-slate-400 hover:text-slate-700 absolute top-0 left-0"
+                    size="small"
+                    type="button"
+                    to="/"
+                >
+                    <ArrowLeftOnRectangleIcon className="w-7 h-7" />
+                </Button>
+            </Tooltip>
+            {showToast && <Toast placement="bottom-end" message={toastBody.message} status={toastBody.status} />}
         </section>
     );
 }

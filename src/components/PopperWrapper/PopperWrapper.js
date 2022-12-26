@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 import styles from './PopperWrapper.module.scss';
-import { UpdateComment, BoardPanel, ColorPalette, RemovalConfirmPanel, ReportFlag } from './panels';
+import { UpdateComment, BoardPanel, ColorPalette, RemovalConfirmPanel, ReportFlag, UserMenuActions } from './panels';
 
 const cx = classNames.bind(styles);
 
@@ -13,6 +13,7 @@ function PopperWrapper({
     colorPalette,
     setCurrentColor,
     updateComment,
+    userMenuActions,
     placement = 'bottom-start',
     children,
     setToast,
@@ -21,7 +22,7 @@ function PopperWrapper({
     trigger = 'click',
 }) {
     const classes = cx(
-        'z-[1000] absolute cursor-auto overflow-y-auto max-h-[min((100vh-96px)-60px,734px)] rounded-lg shadow-[0_0_20px_0_rgba(44,104,144,0.5)] py-2 px-3 bg-white',
+        'z-[1000] absolute cursor-auto overflow-y-auto max-h-[min((100vh-96px)-60px,734px)] rounded-lg shadow-lg py-2 px-3 bg-white',
         {
             left,
             right,
@@ -40,6 +41,7 @@ function PopperWrapper({
                         {removalConfirmPanel && <RemovalConfirmPanel setToast={setToast} data={removalConfirmPanel} />}
                         {reportFlag && <ReportFlag data={reportFlag} />}
                         {updateComment && <UpdateComment data={updateComment} />}
+                        {userMenuActions && <UserMenuActions data={userMenuActions} />}
                     </div>
                 )}
             >

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { Button } from '~/components';
+import bcrypt from 'bcryptjs';
+import { Button, Toast, Spinner } from '~/components';
 import CountDown from './CountDown';
 import { useStore } from '~/store';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '~/firebase-config';
 
 const initialOtp = {
     [uuidv4()]: {
@@ -20,14 +23,28 @@ const initialOtp = {
     },
 };
 
-function OTP() {
+function OTP({ signupData }) {
     const [state, dispatch] = useStore();
     const { OTPcode } = state;
-    console.log(OTPcode);
     const [otp, setOtp] = useState(initialOtp);
     const [error, setError] = useState('');
     const [showTimer, setShowTimer] = useState(false);
+    const [showToast, setShowToast] = useState(false);
+    const [toastBody, setToastBody] = useState({
+        message: '',
+        status: '',
+    });
+    const [showLoading, setShowLoading] = useState(false);
     const navigate = useNavigate();
+    const [timeoutNavigate, setTimeoutNavigate] = useState('');
+    const [timeoutToast, setTimeoutToast] = useState('');
+
+    useEffect(() => {
+        return () => {
+            clearTimeout(timeoutToast);
+            clearTimeout(timeoutNavigate);
+        };
+    }, []);
 
     const validateOTP = () => {
         let result = '';
@@ -35,18 +52,48 @@ function OTP() {
         let index = 0;
 
         Object.entries(otp).forEach(([id, data]) => {
-            if (data.value === '') {
+            if (data.value === '' || parseInt(data.value) != parseInt(OTPcode[index++])) {
                 errorMessage = 'OTP miss match';
                 return setError(errorMessage);
             } else {
                 result += data.value;
             }
-            index++;
         });
 
         if (!errorMessage) {
-            console.log(result);
-            navigate('/signin');
+            bcrypt.hash(signupData.password, 10, (err, hash) => {
+                const storeData = async () => {
+                    try {
+                        const res = await addDoc(collection(db, 'accounts'), {
+                            email: signupData.email,
+                            password: hash,
+                        });
+                        console.log('Saved data successfully!');
+                    } catch (e) {
+                        console.error("Can't store sign up data");
+                    }
+                };
+                storeData();
+            });
+            setToastBody({
+                message: 'Create your new account successfully',
+                status: 'success',
+            });
+            setShowLoading(true);
+            setShowToast(true);
+
+            setTimeoutToast(
+                setTimeout(() => {
+                    setShowToast(false);
+                    setShowLoading(false);
+                }, 3000),
+            );
+
+            setTimeoutNavigate(
+                setTimeout(() => {
+                    navigate('/signin');
+                }, 5000),
+            );
         }
     };
 
@@ -58,7 +105,6 @@ function OTP() {
     };
 
     const handleChange = (element, dataId) => {
-        console.log('input changed');
         if (isNaN(element.value)) return false;
 
         setError('');
@@ -110,12 +156,15 @@ function OTP() {
                 <Button
                     type="button"
                     size="medium"
+                    leftIcon={showLoading ? <Spinner className="w-5 h-5" /> : null}
                     className="bg-blue-500 text-white hover:bg-blue-400 ease-in-out duration-200"
                     onClick={validateOTP}
                 >
                     Activate account
                 </Button>
             </div>
+
+            {showToast && <Toast placement="bottom-end" message={toastBody.message} status={toastBody.status} />}
         </div>
     );
 }

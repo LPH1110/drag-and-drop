@@ -4,17 +4,33 @@ import emailjs from '@emailjs/browser';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
+import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
+import { collection, where, onSnapshot, query } from 'firebase/firestore';
+import { db } from '~/firebase-config';
 
-import { Button, Spinner } from '~/components';
+import { Button, Spinner, Tooltip, Toast } from '~/components';
 import OTP from './OTP';
 import { useStore, actions } from '~/store';
+
+const emailjs_service_id = 'service_7h1hbr1';
+const emailjs_template_id = 'template_3fq68xe';
+const emailjs_public_key = 'A3Uj8TuJqV8IVObAM';
 
 function Signup() {
     const [state, dispatch] = useStore();
     const [showPassword, setShowPassword] = useState(false);
     const [showLoading, setShowLoading] = useState(false);
     const [forward, setForward] = useState(false);
+    const [showToast, setShowToast] = useState(false);
+    const [toastBody, setToastBody] = useState({
+        message: '',
+        status: '',
+    });
     const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+    const [signupData, setSignupData] = useState({
+        email: '',
+        password: '',
+    });
     const passwordInputRef = useRef();
     const passwordConfirmationRef = useRef();
     const navigate = useNavigate();
@@ -42,42 +58,58 @@ function Signup() {
             passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Password must match'),
         }),
 
-        onSubmit: async (data) => {
+        onSubmit: (data) => {
             setShowLoading(true);
-            console.log(data);
-            const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
-            dispatch(actions.setOTPcode(otpCode));
+            setSignupData({ email: data.email, password: data.password });
 
-            try {
-                const res = await emailjs.send(
-                    'service_7h1hbr1',
-                    'template_3fq68xe',
-                    {
-                        from_name: 'Taskbox Founder',
-                        to_email: data.email,
-                        to_name: 'taskboxer',
-                        message: otpCode,
-                    },
-                    'A3Uj8TuJqV8IVObAM',
-                );
-                console.log('SENT SUCCESS!', res.status, res.text);
-            } catch (e) {
-                console.log('SENT FAILED...', e);
-            }
+            // Check if account existed
+            const q = query(collection(db, 'accounts'), where('email', '==', data.email));
+            onSnapshot(q, async (snapshot) => {
+                if (snapshot.docs.length > 0) {
+                    setToastBody({ message: 'This email already existed', status: 'error' });
 
-            setShowLoading(false);
+                    setTimeout(() => {
+                        setShowToast(true);
+                        setShowLoading(false);
+                    }, 1000);
+                    setTimeout(() => setShowToast(false), 3000);
+                } else {
+                    // Create account
+                    const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
+                    dispatch(actions.setOTPcode(otpCode));
 
-            setForward(true);
+                    try {
+                        const res = await emailjs.send(
+                            emailjs_service_id,
+                            emailjs_template_id,
+                            {
+                                from_name: 'Taskbox Founder',
+                                to_email: data.email,
+                                to_name: 'taskboxer',
+                                message: otpCode,
+                            },
+                            emailjs_public_key,
+                        );
+                        console.log('SENT SUCCESS!', res.status, res.text);
+                    } catch (e) {
+                        console.log('SENT FAILED...', e);
+                    }
+
+                    setShowLoading(false);
+
+                    setForward(true);
+                }
+            });
         },
     });
 
     return (
-        <section className="h-screen grid grid-cols-2">
+        <section className="h-screen grid grid-cols-2 relative">
             <section className="flex items-center justify-center">
                 <section className="w-[60%] flex flex-col items-start justify-between">
                     {forward ? (
                         <div className="w-full mt-8">
-                            <OTP />
+                            <OTP signupData={signupData} />
                         </div>
                     ) : (
                         <div className="w-full mt-8">
@@ -174,7 +206,7 @@ function Signup() {
 
                                 <Button
                                     size="large"
-                                    leftIcon={showLoading ? <Spinner /> : null}
+                                    leftIcon={showLoading ? <Spinner className="w-5 h-5" /> : null}
                                     className="mt-4 w-full font-semibold bg-blue-500 text-white hover:bg-blue-400 ease-in-out duration-200"
                                     type="submit"
                                 >
@@ -213,6 +245,17 @@ function Signup() {
                 </section>
             </section>
             <section className="bg-blue-500"></section>
+            <Tooltip placement="right-start" message="Go back to home">
+                <Button
+                    className="my-4 ease duration-200 text-slate-400 hover:text-slate-700 absolute top-0 left-0"
+                    size="small"
+                    type="button"
+                    to="/"
+                >
+                    <ArrowLeftOnRectangleIcon className="w-7 h-7" />
+                </Button>
+            </Tooltip>
+            {showToast && <Toast placement="bottom-end" message={toastBody.message} status={toastBody.status} />}
         </section>
     );
 }
