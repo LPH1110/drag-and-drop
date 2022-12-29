@@ -8,3 +8,4 @@ export { default as Issues } from './Issues';
 export { default as Pricing } from './Pricing';
 export { default as Signin } from './Signin';
 export { default as Signup } from './Signup';
+export { default as ForgotPassword } from './ForgotPassword';

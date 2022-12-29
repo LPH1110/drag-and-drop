@@ -39,6 +39,7 @@ function Header() {
             icon: <ArrowRightOnRectangleIcon />,
             onClick() {
                 dispatch(actions.setUserSession({ loggedIn: false, info: {} }));
+                localStorage.removeItem('account_id');
             },
         },
     ]);
@@ -46,6 +47,14 @@ function Header() {
     const { userSession } = state;
     const navigate = useNavigate();
     const headerRef = useRef();
+
+    const getStarted = () => {
+        if (userSession.loggedIn) {
+            navigate('/workspaces');
+        } else {
+            navigate('/signin');
+        }
+    };
 
     useEffect(() => {
         const handleWindowScroll = (e) => {
@@ -137,7 +146,7 @@ function Header() {
                         <Button
                             size="medium"
                             type="button"
-                            onClick={() => navigate('/workspaces')}
+                            onClick={getStarted}
                             className="bg-blue-500 font-semibold text-white hover:bg-blue-400 ease-in-out duration-200"
                         >
                             Get Started

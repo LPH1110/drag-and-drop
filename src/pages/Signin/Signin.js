@@ -53,6 +53,7 @@ function Signin() {
                 onSnapshot(q, (snapshot) => {
                     snapshot.docs.forEach((doc) => {
                         const { email, password } = doc.data();
+                        localStorage.setItem('account_id', doc.id);
                         bcrypt.compare(data.password, password, (err, result) => {
                             if (result) {
                                 setToastBody({
@@ -169,7 +170,10 @@ function Signin() {
                                     </label>
                                 </div>
                                 <div>
-                                    <Button className="text-blue-500 hover:text-blue-400 ease duration-200">
+                                    <Button
+                                        onClick={() => navigate('/forgot-password')}
+                                        className="text-blue-500 hover:text-blue-400 ease duration-200"
+                                    >
                                         Forgot password
                                     </Button>
                                 </div>

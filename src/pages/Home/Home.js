@@ -15,11 +15,22 @@ import { ArrowDownCircleIcon, ArrowUpOnSquareIcon, PlusIcon, Square2StackIcon } 
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import SlidePlatforms from './SlidePlatforms';
+import { useStore } from '~/store';
 
 const cx = classNames.bind(styles);
 
 function Home() {
     const navigate = useNavigate();
+    const [state, dispatch] = useStore();
+    const { userSession } = state;
+
+    const getStarted = () => {
+        if (userSession.loggedIn) {
+            navigate('/workspaces');
+        } else {
+            navigate('/signin');
+        }
+    };
 
     return (
         <section className="py-12 flex flex-col items-center">
@@ -40,7 +51,7 @@ function Home() {
                     <Button
                         type="button"
                         size="large"
-                        onClick={() => navigate('/workspaces')}
+                        onClick={getStarted}
                         className="bg-blue-500 hover:bg-blue-400 border ease-in-out duration-200 text-white font-semibold"
                     >
                         Get Started

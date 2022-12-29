@@ -14,7 +14,7 @@ import { useStore, actions } from '~/store';
 
 const emailjs_service_id = 'service_7h1hbr1';
 const emailjs_template_id = 'template_3fq68xe';
-const emailjs_public_key = 'A3Uj8TuJqV8IVObAM';
+const emailjs_public_key = 'A3Uj8TuJqV8IVObAM'; // EMAILJS API KEY
 
 function Signup() {
     const [state, dispatch] = useStore();
@@ -83,7 +83,7 @@ function Signup() {
                             emailjs_service_id,
                             emailjs_template_id,
                             {
-                                from_name: 'Taskbox Founder',
+                                from_name: 'Taskbox Team',
                                 to_email: data.email,
                                 to_name: 'taskboxer',
                                 message: otpCode,
