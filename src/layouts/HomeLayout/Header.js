@@ -11,8 +11,10 @@ import {
 } from '@heroicons/react/24/outline';
 import { NavLink } from 'react-router-dom';
 import { useStore, actions } from '~/store';
+import { UserAuth } from '~/contexts/AuthContext';
 
 function Header() {
+    const { user, logOut } = UserAuth();
     const [userMenuActions, setUserMenuActions] = useState([
         {
             id: uuidv4(),
@@ -38,18 +40,18 @@ function Header() {
             topDivider: true,
             icon: <ArrowRightOnRectangleIcon />,
             onClick() {
+                logOut();
                 dispatch(actions.setUserSession({ loggedIn: false, info: {} }));
                 localStorage.removeItem('account_id');
             },
         },
     ]);
     const [state, dispatch] = useStore();
-    const { userSession } = state;
     const navigate = useNavigate();
     const headerRef = useRef();
 
     const getStarted = () => {
-        if (userSession.loggedIn) {
+        if (user) {
             navigate('/workspaces');
         } else {
             navigate('/signin');
@@ -126,7 +128,7 @@ function Header() {
                 </div>
             </div>
             <div className="flex items-center">
-                {userSession.loggedIn ? (
+                {user ? (
                     <PopperWrapper placement="bottom-end" right userMenuActions={userMenuActions}>
                         <div className="avatar p-1 rounded-full hover:bg-blue-100 ease-in-out duration-200 cursor-pointer">
                             <div className="w-10 rounded-full">

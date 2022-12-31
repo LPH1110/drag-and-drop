@@ -3,10 +3,10 @@ import { CheckIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 import bcrypt from 'bcryptjs';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useFormik } from 'formik';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Button, Spinner, Toast, Tooltip } from '~/components';
+import { Button, Spinner, Toast, Tooltip, GoogleSignInBtn } from '~/components';
 import { db } from '~/firebase-config';
 import { actions, useStore } from '~/store';
 
@@ -43,7 +43,7 @@ function Signin() {
             password: Yup.string().min(8).required('Required field'),
         }),
 
-        onSubmit: async (data) => {
+        onSubmit: (data) => {
             setShowSpinner(true);
             setTimeout(() => setShowSpinner(false), 4000);
             console.log('Submitted Data:');
@@ -186,22 +186,7 @@ function Signin() {
                             >
                                 Sign in
                             </Button>
-                            <div>
-                                <Button
-                                    size="large"
-                                    leftIcon={
-                                        <img
-                                            className="w-5 h-5"
-                                            src="https://res.cloudinary.com/dzzv49yec/image/upload/v1671615696/taskbox-assets/google_f8flbm.png"
-                                            alt="Google"
-                                        />
-                                    }
-                                    className="mx-0 mt-4 w-full text-slate-600 hover:bg-slate-100 border boder-slate-200 ease-in-out duration-200"
-                                    type="button"
-                                >
-                                    Sign in with Google
-                                </Button>
-                            </div>
+                            <GoogleSignInBtn setToastBody={setToastBody} />
                             <p className="text-center py-4">
                                 Don't have an account?
                                 <button

@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import emailjs from '@emailjs/browser';
@@ -25,6 +25,11 @@ function ForgotPassword() {
             status: '',
         },
     });
+    const [timeout, setTimeOut] = useState('');
+
+    useEffect(() => {
+        return () => clearTimeout(timeout);
+    }, []);
 
     const formik = useFormik({
         initialValues: {
@@ -41,7 +46,7 @@ function ForgotPassword() {
             const sendOTP = async () => {
                 const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
                 dispatch(actions.setOTPcode(otpCode));
-                setTimeout(() => dispatch(actions.setOTPcode('')), 300000);
+                setTimeOut(setTimeout(() => dispatch(actions.setOTPcode('')), 300000));
 
                 try {
                     const res = await emailjs.send(
@@ -62,7 +67,6 @@ function ForgotPassword() {
             };
 
             sendOTP();
-
             setShowSpinner(false);
             setTypedEmail(data.email);
             setForward(true);
@@ -72,14 +76,14 @@ function ForgotPassword() {
         <section className="h-screen grid grid-cols-2">
             <section className="flex items-center justify-center">
                 <section className="w-[60%] flex flex-col items-start justify-between">
-                    <div className="w-full mt-8">
-                        <div className="py-4 mb-4">
-                            <h1 className="mb-1 text-slate-700 font-semibold text-3xl">Forgot Password</h1>
-                            <p className="text-slate-500">We will send a verification code to your typed email</p>
-                        </div>
-                        {forward ? (
-                            <NewPassword setToast={setToast} typedEmail={typedEmail} />
-                        ) : (
+                    {forward ? (
+                        <NewPassword setToast={setToast} typedEmail={typedEmail} />
+                    ) : (
+                        <div className="w-full mt-8">
+                            <div className="py-4 mb-4">
+                                <h1 className="mb-1 text-slate-700 font-semibold text-3xl">Forgot Password</h1>
+                                <p className="text-slate-500">We will send a verification code to your typed email</p>
+                            </div>
                             <form onSubmit={formik.handleSubmit}>
                                 <section className="flex flex-col mb-2">
                                     <label className="text-slate-600 font-semibold" htmlFor="email">
@@ -120,8 +124,8 @@ function ForgotPassword() {
                                     </button>
                                 </p>
                             </form>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </section>
             </section>
             <section className="bg-blue-500"></section>

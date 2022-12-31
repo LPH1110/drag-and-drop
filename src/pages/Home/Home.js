@@ -16,16 +16,17 @@ import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import SlidePlatforms from './SlidePlatforms';
 import { useStore } from '~/store';
+import { UserAuth } from '~/contexts/AuthContext';
 
 const cx = classNames.bind(styles);
 
 function Home() {
+    const { user } = UserAuth();
     const navigate = useNavigate();
     const [state, dispatch] = useStore();
-    const { userSession } = state;
 
     const getStarted = () => {
-        if (userSession.loggedIn) {
+        if (user) {
             navigate('/workspaces');
         } else {
             navigate('/signin');
@@ -68,7 +69,10 @@ function Home() {
             {/* Landing wallpaper */}
             <section className="p-36">
                 <div
-                    className={cx('landing-frame-mac', 'relative w-full border-t border-x rounded-xl border-slate-200')}
+                    className={cx(
+                        'landing-frame-mac',
+                        'select-none relative w-full border-t border-x rounded-xl border-slate-200',
+                    )}
                 >
                     <div className="grid grid-cols-3 gap-x-9 p-4 border-b border-slate-200">
                         <div className="flex items-center">

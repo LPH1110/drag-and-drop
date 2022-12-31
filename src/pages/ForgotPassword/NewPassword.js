@@ -46,36 +46,37 @@ function NewPassword({ typedEmail, setToast }) {
         }),
 
         onSubmit(data) {
-            const changePassword = async () => {
-                try {
-                    let accountId;
-                    if (localStorage.getItem('account_id')) {
-                        accountId = localStorage.getItem('account_id');
-                    } else {
-                        const q = query(collection(db, 'accounts'), where('email', '==', typedEmail));
-                        onSnapshot(q, (snapshot) => {
-                            snapshot.docs.forEach((doc) => {
-                                accountId = doc.id;
-                            });
+            const changePassword = () => {
+                let accountId;
+                if (localStorage.getItem('account_id')) {
+                    accountId = localStorage.getItem('account_id');
+                } else {
+                    const q = query(collection(db, 'accounts'), where('email', '==', typedEmail));
+                    onSnapshot(q, (snapshot) => {
+                        snapshot.docs.forEach((doc) => {
+                            accountId = doc.id;
                         });
-                    }
-                    const docRef = doc(db, 'accounts', accountId);
-                    bcrypt.hash(data.newPassword, 10, async (err, hash) => {
-                        const res = await updateDoc(docRef, { password: hash });
                     });
-                    setToast({
-                        onShow: true,
-                        body: {
-                            message: 'You have successfully changed password',
-                            status: 'success',
-                        },
-                    });
-                    setTimeout(() => {
-                        navigate('/signin');
-                    }, 2000);
-                } catch (e) {
-                    console.error('Failed to update document!');
                 }
+                bcrypt.hash(data.newPassword, 10, async (err, hash) => {
+                    try {
+                        const docRef = doc(db, 'accounts', accountId);
+                        const res = await updateDoc(docRef, { password: hash });
+                        console.log(res);
+                    } catch (e) {
+                        console.error('Failed to update your password');
+                    }
+                });
+                setToast({
+                    onShow: true,
+                    body: {
+                        message: 'You have successfully changed password',
+                        status: 'success',
+                    },
+                });
+                setTimeout(() => {
+                    navigate('/signin');
+                }, 2000);
             };
 
             setShowSpinner(true);
@@ -84,92 +85,100 @@ function NewPassword({ typedEmail, setToast }) {
         },
     });
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <section className="flex flex-col mb-2">
-                <label className="text-slate-600 font-semibold" htmlFor="otpCode">
-                    Verification code
-                </label>
-                <input
-                    className={`my-2 border border-slate-200 p-2 ring ring-transparent ${
-                        formik.errors.otpCode ? 'ring-red-400' : 'focus:ring-blue-500'
-                    } outline-none rounded-md ease duration-200`}
-                    name="otpCode"
-                    id="otpCode"
-                    type="text"
-                    value={formik.values.otpCode}
-                    onChange={formik.handleChange}
-                />
-                {formik.errors.otpCode ? <span className="text-red-400">{formik.errors.otpCode}</span> : null}
-            </section>
-            <section className="flex flex-col">
-                <label className="text-slate-600 font-semibold" htmlFor="newPassword">
-                    New Password
-                </label>
-                <div
-                    ref={newPasswordInputRef}
-                    className="flex items-center my-2 border border-slate-200 p-2 ring ring-transparent focus-within:ring-blue-500 rounded-md ease duration-200"
-                >
+        <div className="w-full mt-8">
+            <div className="py-4 mb-4">
+                <h1 className="mb-1 text-slate-700 font-semibold text-3xl">Create New Password</h1>
+                <p className="text-slate-500">You will need OTP code we have sent to your email</p>
+            </div>
+            <form onSubmit={formik.handleSubmit}>
+                <section className="flex flex-col mb-2">
+                    <label className="text-slate-600 font-semibold" htmlFor="otpCode">
+                        Verification code
+                    </label>
                     <input
-                        className="outline-none w-full"
-                        name="newPassword"
-                        id="newPassword"
-                        value={formik.values.newPassword}
+                        className={`my-2 border border-slate-200 p-2 ring ring-transparent ${
+                            formik.errors.otpCode ? 'ring-red-400' : 'focus:ring-blue-500'
+                        } outline-none rounded-md ease duration-200`}
+                        name="otpCode"
+                        id="otpCode"
+                        type="text"
+                        value={formik.values.otpCode}
                         onChange={formik.handleChange}
-                        type={showPassword ? 'text' : 'password'}
                     />
-                    {formik.values.newPassword.length > 0 && (
-                        <span
-                            onClick={handleShowPassword}
-                            className="p-1 text-slate-600 hover:text-slate-500 ease duration-200"
-                        >
-                            {showPassword ? <EyeSlashIcon className="w-4 h-4" /> : <EyeIcon className="w-4 h-4" />}
-                        </span>
-                    )}
-                </div>
-                {formik.errors.newPassword ? <span className="text-red-400">{formik.errors.newPassword}</span> : null}
-            </section>
-            <section className="flex flex-col">
-                <label className="text-slate-600 font-semibold" htmlFor="repeatNewPassword">
-                    Repeat Password
-                </label>
-                <div
-                    ref={repeatNewPasswordRef}
-                    className="flex items-center my-2 border border-slate-200 p-2 ring ring-transparent focus-within:ring-blue-500 rounded-md ease duration-200"
+                    {formik.errors.otpCode ? <span className="text-red-400">{formik.errors.otpCode}</span> : null}
+                </section>
+                <section className="flex flex-col">
+                    <label className="text-slate-600 font-semibold" htmlFor="newPassword">
+                        New Password
+                    </label>
+                    <div
+                        ref={newPasswordInputRef}
+                        className="flex items-center my-2 border border-slate-200 p-2 ring ring-transparent focus-within:ring-blue-500 rounded-md ease duration-200"
+                    >
+                        <input
+                            className="outline-none w-full"
+                            name="newPassword"
+                            id="newPassword"
+                            value={formik.values.newPassword}
+                            onChange={formik.handleChange}
+                            type={showPassword ? 'text' : 'password'}
+                        />
+                        {formik.values.newPassword.length > 0 && (
+                            <span
+                                onClick={handleShowPassword}
+                                className="p-1 text-slate-600 hover:text-slate-500 ease duration-200"
+                            >
+                                {showPassword ? <EyeSlashIcon className="w-4 h-4" /> : <EyeIcon className="w-4 h-4" />}
+                            </span>
+                        )}
+                    </div>
+                    {formik.errors.newPassword ? (
+                        <span className="text-red-400">{formik.errors.newPassword}</span>
+                    ) : null}
+                </section>
+                <section className="flex flex-col">
+                    <label className="text-slate-600 font-semibold" htmlFor="repeatNewPassword">
+                        Repeat Password
+                    </label>
+                    <div
+                        ref={repeatNewPasswordRef}
+                        className="flex items-center my-2 border border-slate-200 p-2 ring ring-transparent focus-within:ring-blue-500 rounded-md ease duration-200"
+                    >
+                        <input
+                            className="outline-none w-full"
+                            name="repeatNewPassword"
+                            id="repeatNewPassword"
+                            value={formik.values.repeatNewPassword}
+                            onChange={formik.handleChange}
+                            type={showRepeatPassword ? 'text' : 'password'}
+                        />
+                        {formik.values.repeatNewPassword.length > 0 && (
+                            <span
+                                onClick={handleShowRepeatPassword}
+                                className="p-1 text-slate-600 hover:text-slate-500 ease duration-200"
+                            >
+                                {showRepeatPassword ? (
+                                    <EyeSlashIcon className="w-4 h-4" />
+                                ) : (
+                                    <EyeIcon className="w-4 h-4" />
+                                )}
+                            </span>
+                        )}
+                    </div>
+                    {formik.errors.repeatNewPassword ? (
+                        <span className="text-red-400">{formik.errors.repeatNewPassword}</span>
+                    ) : null}
+                </section>
+                <Button
+                    size="large"
+                    className="mt-4 w-full font-semibold bg-blue-500 text-white hover:bg-blue-400 ease-in-out duration-200"
+                    type="submit"
+                    leftIcon={showSpinner ? <Spinner className="w-5 h-5" /> : null}
                 >
-                    <input
-                        className="outline-none w-full"
-                        name="repeatNewPassword"
-                        id="repeatNewPassword"
-                        value={formik.values.repeatNewPassword}
-                        onChange={formik.handleChange}
-                        type={showRepeatPassword ? 'text' : 'password'}
-                    />
-                    {formik.values.repeatNewPassword.length > 0 && (
-                        <span
-                            onClick={handleShowRepeatPassword}
-                            className="p-1 text-slate-600 hover:text-slate-500 ease duration-200"
-                        >
-                            {showRepeatPassword ? (
-                                <EyeSlashIcon className="w-4 h-4" />
-                            ) : (
-                                <EyeIcon className="w-4 h-4" />
-                            )}
-                        </span>
-                    )}
-                </div>
-                {formik.errors.repeatNewPassword ? (
-                    <span className="text-red-400">{formik.errors.repeatNewPassword}</span>
-                ) : null}
-            </section>
-            <Button
-                size="large"
-                className="mt-4 w-full font-semibold bg-blue-500 text-white hover:bg-blue-400 ease-in-out duration-200"
-                type="submit"
-                leftIcon={showSpinner ? <Spinner className="w-5 h-5" /> : null}
-            >
-                Change password
-            </Button>
-        </form>
+                    Change password
+                </Button>
+            </form>
+        </div>
     );
 }
 

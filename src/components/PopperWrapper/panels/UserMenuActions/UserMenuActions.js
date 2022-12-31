@@ -1,8 +1,11 @@
 import React from 'react';
+import { UserAuth } from '~/contexts/AuthContext';
 
 function UserMenuActions({ data }) {
+    const { user } = UserAuth();
     return (
         <div className="min-w-[10rem]">
+            <h4 className="font-semibold text-slate-600 border-b border-slate-200 p-2">{user?.displayName}</h4>
             {data.map((item) => (
                 <div key={item.id} className="w-full">
                     <button

@@ -8,7 +8,7 @@ import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
 import { collection, where, onSnapshot, query } from 'firebase/firestore';
 import { db } from '~/firebase-config';
 
-import { Button, Spinner, Tooltip, Toast } from '~/components';
+import { Button, Spinner, Tooltip, Toast, GoogleSignInBtn } from '~/components';
 import OTP from './OTP';
 import { useStore, actions } from '~/store';
 
@@ -213,22 +213,7 @@ function Signup() {
                                     Sign up
                                 </Button>
                                 <div className="divider">OR</div>
-                                <div>
-                                    <Button
-                                        size="large"
-                                        leftIcon={
-                                            <img
-                                                className="w-5 h-5"
-                                                src="https://res.cloudinary.com/dzzv49yec/image/upload/v1671615696/taskbox-assets/google_f8flbm.png"
-                                                alt="Google"
-                                            />
-                                        }
-                                        className="mx-0 mt-4 w-full text-slate-600 hover:bg-slate-100 border boder-slate-200 ease-in-out duration-200"
-                                        type="button"
-                                    >
-                                        Sign in with Google
-                                    </Button>
-                                </div>
+                                <GoogleSignInBtn />
                                 <p className="text-center py-4">
                                     Already have an account?
                                     <button
